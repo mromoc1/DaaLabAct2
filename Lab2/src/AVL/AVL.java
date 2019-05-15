@@ -22,10 +22,9 @@ public class AVL {
 		}
 		if(valor < nodo.getDato()) {//Si el valor del nodo entrante es menor al del nodo que esta en el arbol
 			nodo.setNodoIzq(Insertar(nodo.getNodoIzq(),valor));
-		}else if(valor == nodo.getDato()){
 		}else if(valor > nodo.getDato()) {// si el nodo entrante tiene un valor mayor
 			nodo.setNodoDer(Insertar(nodo.getNodoDer(),valor));
-		}//else {System.out.print("---"); return nodo; }
+		}else{return nodo; }
 	
 		nodo.setAltura(Math.max(alturaNodo(nodo.getNodoIzq()),alturaNodo(nodo.getNodoDer()))+1);
 		
@@ -58,25 +57,32 @@ public class AVL {
 		if(nodo == null) {
 			return nodo;
 		}
-		if(valor < nodo.getDato()) {//si el valor a eliminar es menor, avanza al nodo izquierdo
+		//si el valor a eliminar es menor, avanza al nodo izquierdo
+		if(valor < nodo.getDato()) {
 			nodo.setNodoIzq(Eliminar(nodo.getNodoIzq(),valor));
-		}else if (valor > nodo.getDato()) {//si el valor a eliminar es mayor, avanza al nodo derecho
+			//si el valor a eliminar es mayor, avanza al nodo derecho
+		}else if (valor > nodo.getDato()) {
 			nodo.setNodoDer(Eliminar(nodo.getNodoDer(),valor));
-		}else {//si el valor a eliminar es igual al del nodo buscado
-			if(nodo.getNodoIzq() == null || nodo.getNodoDer() == null) {//Caso de nodo con solo 1 hijo o sin hijos
+			//si el valor a eliminar es igual al del nodo buscado
+		}else {
+			//Caso de nodo con solo 1 hijo o sin hijos
+			if(nodo.getNodoIzq() == null || nodo.getNodoDer() == null) {
 				Nodo aux = null;
 				if(nodo.getNodoIzq()==aux) {
 					aux = nodo.getNodoDer();
 				}else {
 					aux = nodo.getNodoIzq();
 				}
-				if(aux == null) {//Si no tiene hijos
+				//Si no tiene hijos
+				if(aux == null) {
 					aux = nodo;
 					nodo = null;
-				}else {//Si tiene 1 hijo
+				//Si tiene 1 hijo
+				}else {
 					nodo = aux;
 				}
-			}else {//Caso de que el nodo tenga 2 hijos
+			//Caso de que el nodo tenga 2 hijos
+			}else {
 				Nodo aux = Sucesor(nodo.getNodoDer());
 				nodo.setDato(aux.getDato());
 				nodo.setNodoDer(Eliminar(nodo.getNodoIzq(),aux.getDato()));
@@ -87,7 +93,7 @@ public class AVL {
 		}
 		//Comprobacion de balanceo   
 		nodo.setAltura(Math.max(alturaNodo(nodo.getNodoIzq()),alturaNodo(nodo.getNodoDer())));
-		           
+		//Consultamos el balance en el nodo nodo, si            
 		int balance = Balance(nodo);
 		if(balance > 1 && Balance(nodo.getNodoIzq())>=0) {
 			return RotacionDer(nodo);
